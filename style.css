@@ -1,186 +1,742 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+/* Base Styles */
+:root {
+  --primary-color: #4a6ed0;
+  --primary-hover: #3956a7;
+  --danger-color: #e74c3c;
+  --success-color: #2ecc71;
+  --warning-color: #f39c12;
+  --info-color: #3498db;
+  --text-color: #333;
+  --text-light: #666;
+  --background-color: #f8f9fa;
+  --card-background: #ffffff;
+  --border-color: #dee2e6;
+  --transition-speed: 0.3s;
+  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --border-radius: 8px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f3f3f3;
-    margin: 0;
-    padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 20px;
+  transition: background-color var(--transition-speed), color var(--transition-speed);
 }
 
 .container {
-    max-width: 600px;
-    margin: auto;
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
+  max-width: 800px;
+  margin: 0 auto;
+  background: var(--card-background);
+  padding: 25px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
 }
 
-/* Input and button styling (light mode) */
-form input,
-form button,
-#search {
-    display: block;
-    width: 100%;
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+/* Header Styles */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--border-color);
 }
 
-/* Credential list styling */
-ul {
-    list-style: none;
-    padding: 0;
+h1 {
+  font-size: 1.8rem;
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-li {
-    background: #eee;
-    padding: 10px;
-    margin-bottom: 8px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+h1 i {
+  font-size: 1.5rem;
 }
 
-/* Delete button in list */
-li button {
-    padding: 5px 10px;
-    border: none;
-    background-color: #d9534f;
-    color: white;
-    border-radius: 4px;
-    cursor: pointer;
+h2, h3 {
+  margin-bottom: 15px;
+  color: var(--primary-color);
 }
 
-li button:hover {
-    background-color: #c9302c;
+/* Form Styles */
+.form-group {
+  margin-bottom: 15px;
 }
 
-/* Dark mode base */
-body.dark-mode {
-    background-color: #121212;
-    color: #f0f0f0;
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
 }
 
-/* Dark mode container */
-.dark-mode .container {
-    background-color: #1e1e1e;
-    color: #f0f0f0;
+input, select, textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  transition: border-color var(--transition-speed);
 }
 
-/* Dark mode form elements */
-.dark-mode input,
-.dark-mode button {
-    background-color: #2a2a2a;
-    color: #f0f0f0;
-    border: 1px solid #444;
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(74, 110, 208, 0.2);
 }
 
-/* Form button hover effect */
-form button:hover {
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
+textarea {
+  min-height: 80px;
+  resize: vertical;
 }
 
-.dark-mode form button:hover {
-    background-color: #444;
+/* Button Styles */
+button {
+  cursor: pointer;
+  transition: all var(--transition-speed);
 }
 
-/* Toggle container */
-.dark-toggle {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 10px;
+.btn-primary, .btn-secondary, .btn-danger {
+  padding: 10px 15px;
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
-/* Optional: checkbox appearance */
-.dark-toggle input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+  width: 100%;
 }
 
-li button {
-    padding: 5px 10px;
-    border: none;
-    background-color: #007bff;
-    color: white;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-left: 5px;
+.btn-primary:hover {
+  background-color: var(--primary-hover);
 }
 
-li button:hover {
-    opacity: 0.9;
+.btn-secondary {
+  background-color: #f1f3f5;
+  color: var(--text-color);
 }
 
-.dark-mode li button {
-    background-color: #555;
-    color: #f0f0f0;
+.btn-secondary:hover {
+  background-color: #e9ecef;
 }
 
-.copy-tooltip {
-    margin-left: 10px;
-    background-color: #333;
-    color: #fff;
-    padding: 3px 8px;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    animation: fadeInOut 1.5s forwards;
+.btn-danger {
+  background-color: var(--danger-color);
+  color: white;
 }
 
-@keyframes fadeInOut {
-    0% { opacity: 0; transform: translateY(-5px); }
-    10% { opacity: 1; transform: translateY(0); }
-    90% { opacity: 1; }
-    100% { opacity: 0; transform: translateY(-5px); }
+.btn-danger:hover {
+  background-color: #c0392b;
+}
+
+.btn-group {
+  display: flex;
+  gap: 10px;
+}
+
+/* Password Input Group */
+.password-input-group {
+  position: relative;
+  display: flex;
+}
+
+.password-input-group input {
+  flex-grow: 1;
+}
+
+.toggle-password-input {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--text-light);
+  cursor: pointer;
+  z-index: 2;
+}
+
+/* Password Strength Meter */
+.password-strength-meter {
+  height: 5px;
+  margin-top: 8px;
+  position: relative;
+}
+
+.strength-bar {
+  height: 100%;
+  width: 0;
+  background-color: #e74c3c;
+  transition: width 0.3s, background-color 0.3s;
+  border-radius: 2px;
+}
+
+.strength-text {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  margin-top: 5px;
+  display: block;
+}
+
+/* Password Generator */
+.password-generator {
+  background-color: #f1f3f5;
+  padding: 15px;
+  border-radius: var(--border-radius);
+  margin-bottom: 20px;
+}
+
+.password-generator h3 {
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.generator-options {
+  margin-bottom: 15px;
+}
+
+.length-option {
+  margin-bottom: 10px;
+}
+
+input[type="range"] {
+  width: 100%;
+}
+
+.checkbox-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.checkbox-options label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-weight: normal;
+}
+
+.checkbox-options input[type="checkbox"] {
+  width: auto;
+  margin-right: 5px;
+}
+
+.btn-generate {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color var(--transition-speed);
+}
+
+.btn-generate:hover {
+  background-color: var(--primary-hover);
+}
+
+/* Tab Styles */
+.tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 20px;
+}
+
+.tab-btn {
+  padding: 10px 20px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-light);
+  transition: all var(--transition-speed);
+}
+
+.tab-btn:hover {
+  color: var(--primary-color);
+}
+
+.tab-btn.active {
+  color: var(--primary-color);
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.tab-pane {
+  display: none;
+}
+
+.tab-pane.active {
+  display: block;
+  animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Search and Filter Bar */
+.search-filter-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.search-box {
+  position: relative;
+  flex-grow: 1;
+}
+
+.search-box i {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-light);
+}
+
+.search-box input {
+  padding-left: 35px;
+}
+
+.view-toggle {
+  background: none;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Sort Options */
+.sort-options {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  align-items: center;
+}
+
+.sort-options span {
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+.sort-btn {
+  background: none;
+  border: none;
+  color: var(--text-light);
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.sort-btn:hover {
+  color: var(--primary-color);
+}
+
+/* Credentials List */
+#credentialsList {
+  list-style: none;
+  padding: 0;
+}
+
+/* List View */
+.list-view li {
+  background: #f8f9fa;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+  animation: slideIn 0.3s;
+}
+
+.list-view li:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.credential-view {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.password-text {
+  font-family: monospace;
+  transition: all 0.3s;
 }
 
 .toggle-password {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1rem;
-    margin-left: 5px;
+  background: none;
+  border: none;
+  color: var(--text-light);
+  cursor: pointer;
+  transition: color 0.2s;
 }
 
 .toggle-password:hover {
-    opacity: 0.7;
+  color: var(--primary-color);
 }
 
+.category-badge {
+  font-size: 0.8rem;
+  padding: 3px 8px;
+  border-radius: 12px;
+  background-color: #e9ecef;
+  color: var(--text-color);
+}
+
+/* Card View */
+.card-view {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px;
+}
+
+.password-card {
+  background: #fff;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  overflow: hidden;
+  animation: fadeIn 0.3s;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.password-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 12px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.website-name {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.card-header .category-badge {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.card-body {
+  padding: 15px;
+}
+
+.username-section, .password-section {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.username-label, .password-label {
+  font-weight: 500;
+  margin-right: 5px;
+}
+
+.copy-btn {
+  background: none;
+  border: none;
+  color: var(--text-light);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.copy-btn:hover {
+  color: var(--primary-color);
+}
+
+.notes-section {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+
+.expiry-section {
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+
+.expiry-warning {
+  color: var(--warning-color);
+  font-weight: 500;
+}
+
+.card-footer {
+  padding: 12px 15px;
+  background-color: #f8f9fa;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--border-color);
+}
+
+.timestamp {
+  font-size: 0.8rem;
+  color: var(--text-light);
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.edit-btn, .delete-btn {
+  background: none;
+  border: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.edit-btn {
+  color: var(--info-color);
+}
+
+.delete-btn {
+  color: var(--danger-color);
+}
+
+.edit-btn:hover, .delete-btn:hover {
+  opacity: 0.8;
+}
+
+/* Copy Tooltip */
 .copy-tooltip {
-    position: absolute;
-    background-color: #4caf50;
-    color: #fff;
-    padding: 6px 10px;
-    font-size: 13px;
-    border-radius: 6px;
-    top: -35px;
-    right: 0;
+  position: absolute;
+  background-color: var(--success-color);
+  color: white;
+  padding: 6px 10px;
+  font-size: 0.8rem;
+  border-radius: 4px;
+  white-space: nowrap;
+  z-index: 10;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  animation: bounceFade 1.8s forwards;
+}
+
+@keyframes bounceFade {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(-5px);
+  }
+  20% {
+    opacity: 1;
+    transform: scale(1.05) translateY(0);
+  }
+  40% {
+    transform: scale(1) translateY(-2px);
+  }
+  80% {
+    opacity: 1;
+    transform: scale(1) translateY(-2px);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.9) translateY(-8px);
+  }
+}
+
+/* Settings */
+.settings-section {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.setting-item {
+  margin-bottom: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.setting-item label {
+  flex-basis: 200px;
+  margin-bottom: 0;
+}
+
+.setting-item input, .setting-item select {
+  flex-grow: 1;
+}
+
+.setting-item button {
+  white-space: nowrap;
+}
+
+/* Dark Mode */
+.dark-toggle {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 10px;
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.dark-toggle input[type="checkbox"] {
+  width: auto;
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+  --text-color: #e1e1e1;
+  --text-light: #b0b0b0;
+  --background-color: #121212;
+  --card-background: #1e1e1e;
+  --border-color: #2d2d2d;
+  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.dark-mode .btn-secondary {
+  background-color: #2d2d2d;
+  color: #e1e1e1;
+}
+
+.dark-mode .btn-secondary:hover {
+  background-color: #3d3d3d;
+}
+
+.dark-mode .password-generator {
+  background-color: #2a2a2a;
+}
+
+.dark-mode .list-view li {
+  background: #2a2a2a;
+}
+
+.dark-mode .card-footer {
+  background-color: #1a1a1a;
+}
+
+.dark-mode .category-badge {
+  background-color: #3d3d3d;
+  color: #e1e1e1;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  margin-top: 30px;
+  padding-top: 15px;
+  border-top: 1px solid var(--border-color);
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+  
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .dark-toggle {
+    align-self: flex-end;
+  }
+  
+  .tabs {
+    overflow-x: auto;
     white-space: nowrap;
-    z-index: 10;
-    animation: bounceFade 1.8s forwards;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    padding-bottom: 5px;
   }
   
-  @keyframes bounceFade {
-    0% {
-      opacity: 0;
-      transform: scale(0.8) translateY(-10px);
-    }
-    20% {
-      opacity: 1;
-      transform: scale(1.05) translateY(0);
-    }
-    40% {
-      transform: scale(1) translateY(-2px);
-    }
-    80% {
-      opacity: 1;
-      transform: scale(1) translateY(-2px);
-    }
-    100% {
-      opacity: 0;
-      transform: scale(0.9) translateY(-8px);
-    }
+  .tab-btn {
+    padding: 10px 15px;
   }
   
+  .search-filter-bar {
+    flex-direction: column;
+  }
+  
+  .view-toggle {
+    align-self: flex-end;
+  }
+  
+  .sort-options {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 5px;
+  }
+  
+  .setting-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .setting-item label {
+    flex-basis: auto;
+  }
+}
+
+/* Additional Theme Colors */
+body.theme-blue {
+  --primary-color: #3498db;
+  --primary-hover: #2980b9;
+}
+
+body.theme-purple {
+  --primary-color: #9b59b6;
+  --primary-hover: #8e44ad;
+}
+</style>
+</head>
+<body>
+  <p>This is the enhanced CSS for the Password Manager Pro.</p>
+</body>
+</html>

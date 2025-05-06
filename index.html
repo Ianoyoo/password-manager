@@ -3,50 +3,225 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Password Manager</title>
+  <title>Password Manager Pro</title>
   <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
 </head>
 <body>
   <div class="container">
-    <h1>Password Manager</h1>
-
-    <!-- Dark Mode Toggle -->
-    <label class="dark-toggle">
-      <input type="checkbox" id="darkModeToggle"/> Dark Mode
-    </label>
-
-    <!-- Form for Adding Credentials -->
-    <form id="passwordForm">
-      <select id="category" required>
-        <option value="">Select Category</option>
-        <option value="Social">Social</option>
-        <option value="Work">Work</option>
-        <option value="Banking">Banking</option>
-        <option value="Others">Others</option>
-      </select>
-
-      <input type="text" id="website" placeholder="Website" required/>
-      <input type="text" id="username" placeholder="Username" required/>
-      <input type="password" id="password" placeholder="Password" required/>
+    <header>
+      <h1><i class="fas fa-shield-alt"></i> Password Manager Pro</h1>
       
-      <button type="button" id="generatePassword">Generate Password</button>
-      <button type="submit">Save</button>
-    </form>
+      <!-- Dark Mode Toggle -->
+      <label class="dark-toggle">
+        <input type="checkbox" id="darkModeToggle"/> 
+        <span class="toggle-label"><i class="fas fa-moon"></i> Dark Mode</span>
+      </label>
+    </header>
 
-    <!-- Filters and Credential List -->
-    <h2>Saved Credentials</h2>
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="add">Add Password</button>
+      <button class="tab-btn" data-tab="view">View Passwords</button>
+      <button class="tab-btn" data-tab="settings">Settings</button>
+    </div>
 
-    <select id="filterCategory">
-      <option value="">All Categories</option>
-      <option value="Social">Social</option>
-      <option value="Work">Work</option>
-      <option value="Banking">Banking</option>
-      <option value="Others">Others</option>
-    </select>
+    <div class="tab-content">
+      <!-- Tab 1: Add Password -->
+      <div id="add" class="tab-pane active">
+        <!-- Form for Adding Credentials -->
+        <form id="passwordForm">
+          <div class="form-group">
+            <label for="category">Category</label>
+            <select id="category" required>
+              <option value="">Select Category</option>
+              <option value="Social">Social</option>
+              <option value="Work">Work</option>
+              <option value="Banking">Banking</option>
+              <option value="Shopping">Shopping</option>
+              <option value="Email">Email</option>
+              <option value="Entertainment">Entertainment</option>
+              <option value="Others">Others</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="website">Website/App</label>
+            <input type="text" id="website" placeholder="Website or App name" required/>
+          </div>
+          
+          <div class="form-group">
+            <label for="username">Username/Email</label>
+            <input type="text" id="username" placeholder="Username or Email" required/>
+          </div>
+          
+          <div class="form-group password-container">
+            <label for="password">Password</label>
+            <div class="password-input-group">
+              <input type="password" id="password" placeholder="Password" required/>
+              <button type="button" class="toggle-password-input"><i class="fas fa-eye"></i></button>
+            </div>
+            <div class="password-strength-meter">
+              <div class="strength-bar"></div>
+              <span class="strength-text">Password strength</span>
+            </div>
+          </div>
+          
+          <div class="password-generator">
+            <h3>Password Generator</h3>
+            <div class="generator-options">
+              <div class="length-option">
+                <label for="passwordLength">Length: <span id="lengthValue">12</span></label>
+                <input type="range" id="passwordLength" min="8" max="32" value="12">
+              </div>
+              <div class="checkbox-options">
+                <label><input type="checkbox" id="includeUppercase" checked> A-Z</label>
+                <label><input type="checkbox" id="includeLowercase" checked> a-z</label>
+                <label><input type="checkbox" id="includeNumbers" checked> 0-9</label>
+                <label><input type="checkbox" id="includeSymbols" checked> !@#$%</label>
+              </div>
+            </div>
+            <button type="button" id="generatePassword" class="btn-generate">
+              <i class="fas fa-dice"></i> Generate Password
+            </button>
+          </div>
+          
+          <div class="form-group">
+            <label for="notes">Notes (Optional)</label>
+            <textarea id="notes" placeholder="Add notes about this account"></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label for="expiryDate">Password Expiry (Optional)</label>
+            <input type="date" id="expiryDate">
+          </div>
+
+          <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Save Password</button>
+        </form>
+      </div>
+
+      <!-- Tab 2: View Passwords -->
+      <div id="view" class="tab-pane">
+        <div class="search-filter-bar">
+          <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="search" placeholder="Search passwords..."/>
+          </div>
+          <select id="filterCategory">
+            <option value="">All Categories</option>
+            <option value="Social">Social</option>
+            <option value="Work">Work</option>
+            <option value="Banking">Banking</option>
+            <option value="Shopping">Shopping</option>
+            <option value="Email">Email</option>
+            <option value="Entertainment">Entertainment</option>
+            <option value="Others">Others</option>
+          </select>
+          <button id="toggleCardView" class="view-toggle"><i class="fas fa-th"></i></button>
+        </div>
+        
+        <div class="sort-options">
+          <span>Sort by:</span>
+          <button class="sort-btn" data-sort="website">Website <i class="fas fa-sort"></i></button>
+          <button class="sort-btn" data-sort="category">Category <i class="fas fa-sort"></i></button>
+          <button class="sort-btn" data-sort="date">Date Added <i class="fas fa-sort"></i></button>
+        </div>
+        
+        <ul id="credentialsList" class="list-view"></ul>
+      </div>
+
+      <!-- Tab 3: Settings -->
+      <div id="settings" class="tab-pane">
+        <h2><i class="fas fa-cog"></i> Settings</h2>
+        
+        <div class="settings-section">
+          <h3>Security</h3>
+          <div class="setting-item">
+            <label for="masterPassword">Change Master Password</label>
+            <input type="password" id="masterPassword" placeholder="New master password">
+            <button id="updateMasterKey" class="btn-secondary">Update</button>
+          </div>
+          
+          <div class="setting-item">
+            <label>Auto-logout Timer</label>
+            <select id="autoLogoutTime">
+              <option value="1">1 minute</option>
+              <option value="5" selected>5 minutes</option>
+              <option value="15">15 minutes</option>
+              <option value="30">30 minutes</option>
+              <option value="60">1 hour</option>
+              <option value="never">Never</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="settings-section">
+          <h3>Data Management</h3>
+          <div class="setting-item">
+            <label>Import/Export Passwords</label>
+            <div class="btn-group">
+              <button id="exportData" class="btn-secondary"><i class="fas fa-download"></i> Export Data</button>
+              <button id="importData" class="btn-secondary"><i class="fas fa-upload"></i> Import Data</button>
+              <input type="file" id="importFile" accept=".json" style="display:none">
+            </div>
+          </div>
+          
+          <div class="setting-item">
+            <label>Delete All Data</label>
+            <button id="clearData" class="btn-danger"><i class="fas fa-trash"></i> Clear All Data</button>
+          </div>
+        </div>
+        
+        <div class="settings-section">
+          <h3>Appearance</h3>
+          <div class="setting-item">
+            <label>Theme</label>
+            <select id="themeSelector">
+              <option value="default">Default</option>
+              <option value="dark">Dark</option>
+              <option value="blue">Blue</option>
+              <option value="purple">Purple</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
     
-    <input type="text" id="search" placeholder="Search by website..."/>
-    <ul id="credentialsList"></ul>
+    <footer>
+      <p>Password Manager Pro - Keep your digital life secure</p>
+    </footer>
   </div>
+
+  <!-- Templates -->
+  <template id="password-card-template">
+    <div class="password-card">
+      <div class="card-header">
+        <span class="website-name"></span>
+        <span class="category-badge"></span>
+      </div>
+      <div class="card-body">
+        <div class="username-section">
+          <span class="username-label">Username:</span>
+          <span class="username-value"></span>
+          <button class="copy-btn" data-type="username"><i class="fas fa-copy"></i></button>
+        </div>
+        <div class="password-section">
+          <span class="password-label">Password:</span>
+          <span class="password-text">••••••••</span>
+          <button class="toggle-password"><i class="fas fa-eye"></i></button>
+          <button class="copy-btn" data-type="password"><i class="fas fa-copy"></i></button>
+        </div>
+        <div class="notes-section"></div>
+        <div class="expiry-section"></div>
+      </div>
+      <div class="card-footer">
+        <span class="timestamp"></span>
+        <div class="action-buttons">
+          <button class="edit-btn"><i class="fas fa-edit"></i></button>
+          <button class="delete-btn"><i class="fas fa-trash"></i></button>
+        </div>
+      </div>
+    </div>
+  </template>
 
   <!-- Scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
